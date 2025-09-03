@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { RegistroAlumno } from '../registro/registro.entity';
 
 @Entity('users')
@@ -6,7 +6,7 @@ export class User {
   @PrimaryColumn()
   dni: number;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -24,7 +24,7 @@ export class User {
   @Column()
   isActive: boolean;
 
-  @Column()
+  @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   createdAt: Date;
 
   // Relación One-to-Many con RegistroAluno

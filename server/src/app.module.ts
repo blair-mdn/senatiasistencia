@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
-import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RegistroService } from './registro/registro.service';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -56,10 +55,11 @@ import { RegistroService } from './registro/registro.service';
       },
     }),
     UserModule,
+    AuthModule,
   ],
-  
-  controllers: [ UserController],
-  providers: [AppService, RegistroService],
-  
+
+  controllers: [],
+  providers: [RegistroService],
+
 })
 export class AppModule {}
