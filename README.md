@@ -14,6 +14,24 @@ Este es un proyecto académico desarrollado para SENATI-Tacna que implementa un 
 
 - **App Movil**: Android (Kotlin)
 
+---
+
+## 🔒 Autorización y Roles
+
+### Roles de Usuario
+
+El sistema maneja los siguientes roles:
+
+- **estudiante**: Acceso básico al sistema, puede cambiar su contraseña y ver su perfil
+- **guardia**: Acceso completo a las funcionalidades de registro de asistencia
+
+### Guards de Seguridad
+
+- **JwtAuthGuard**: Valida que el token JWT sea válido
+- **GuardiaGuard**: Extiende JwtAuthGuard y además verifica que el usuario tenga rol "guardia"
+
+---
+
 ## Configuración del Proyecto
 
 ### Requisitos Previos
@@ -70,11 +88,13 @@ El servidor estará disponible en: `http://localhost:3000`
 
 ## 🛠️ API Endpoints
 
-### **Base URL**: `http://localhost:3000`
+### **Local URL**: `http://localhost:3000`
 
 ---
 
 ## 🔐 Autenticación (`/auth`)
+
+> **ℹ️ NOTA**: El sistema maneja diferentes roles de usuario. Los usuarios con rol "guardia" tienen acceso especial a las rutas de registro de asistencia, mientras que otros roles tienen acceso limitado a sus propias funcionalidades.
 
 ### **POST** `/auth/login`
 
@@ -118,7 +138,7 @@ Content-Type: application/json
 
 ---
 
-### **PATCH** `/auth/change-password`
+### **PATCH** `/auth/changePassword`
 
 Cambiar la contraseña del usuario autenticado.
 
@@ -182,16 +202,123 @@ Authorization: Bearer <access_token>
 
 ---
 
-## 📋 Validaciones de Datos
+## 🔐 Registro de Asistencia (`/registro`)
 
-### LoginDto
+> **⚠️ IMPORTANTE**: Todas las rutas del módulo de registro requieren un **access_token de un usuario con rol "guardia"** para acceder a los recursos. Solo los usuarios con rol de guardia pueden gestionar registros de asistencia.
 
-- **email**: Debe ser un email válido
-- **password**: Mínimo 6 caracteres
+### **GET** `/registro/all`
 
-### ChangePasswordDto
+Obtener todos los registros de asistencia.
 
-- **currentPassword**: Mínimo 6 caracteres
-- **newPassword**: Mínimo 6 caracteres
+**Headers:**
+
+```
+Authorization: Bearer <access_token_guardia>
+```
+
+**Respuesta exitosa (200):**
+
+```json
+[
+  {
+    "id": "uuid-registro-1",
+    "userDni": 12345678,
+    "fecha": "2025-09-04T00:00:00.000Z",
+    "horaEntrada": "08:30:00",
+    "horaSalida": "17:00:00",
+    "verificadoPorDni": 87654321,
+    "ubicacion": "Entrada Principal",
+    "isActive": true
+  }
+]
+```
+
+**Errores posibles:**
+
+- **401 Unauthorized**: Token inválido o expirado
+- **403 Forbidden**: Solo los guardias pueden acceder a este recurso
+
+---
+
+### **POST** `/registro/create`
+
+Crear un nuevo registro de asistencia (entrada).
+
+**Headers:**
+
+```
+Content-Type: application/json
+Authorization: Bearer <access_token_guardia>
+```
+
+**Body:**
+
+```json
+{
+  "userDni": 12345678,
+  "fecha": "2025-09-04",
+  "horaEntrada": "08:30:00",
+  "verificadoPorDni": 87654321,
+  "ubicacion": "Entrada Principal"
+}
+```
+
+**Respuesta exitosa (201):**
+
+```json
+{
+  "id": "uuid-registro-generado",
+  "userDni": 12345678,
+  "fecha": "2025-09-04",
+  "horaEntrada": "08:30:00",
+  "horaSalida": null,
+  "verificadoPorDni": 87654321,
+  "ubicacion": "Entrada Principal",
+  "isActive": true
+}
+```
+
+**Errores posibles:**
+
+- **401 Unauthorized**: Token inválido o expirado
+- **403 Forbidden**: Solo los guardias pueden acceder a este recurso
+- **400 Bad Request**: Datos de entrada inválidos
+
+---
+
+### **PATCH** `/registro/updateSalida`
+
+Actualizar la hora de salida de un registro existente.
+
+**Headers:**
+
+```
+Content-Type: application/json
+Authorization: Bearer <access_token_guardia>
+```
+
+**Body:**
+
+```json
+{
+  "userDni": 12345678,
+  "horaSalida": "17:00:00"
+}
+```
+
+**Respuesta exitosa (200):**
+
+```json
+{
+  "message": "Hora de salida actualizada correctamente"
+}
+```
+
+**Errores posibles:**
+
+- **401 Unauthorized**: Token inválido o expirado
+- **403 Forbidden**: Solo los guardias pueden acceder a este recurso
+- **400 Bad Request**: Datos de entrada inválidos
+- **404 Not Found**: No se encontró un registro activo para el DNI especificado
 
 ---

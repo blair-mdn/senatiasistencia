@@ -18,7 +18,7 @@ export class AuthController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Patch('change-password')
+    @Patch('changePassword')
     async changePassword(
         @Request() req,
         @Body() changePasswordDto: ChangePasswordDto
