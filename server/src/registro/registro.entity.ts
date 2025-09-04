@@ -3,35 +3,41 @@ import { User } from '../user/user.entity'
 
 
 @Entity('registro')
-export class RegistroAlumno {
+export class Registro {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // Foreign Key hacia User
+  // Foreign Key hacia User (estudiante)
   @Column()
   userDni: number;
 
-  // Relación Many-to-One con User
+  // Relación Many-to-One con User (estudiante)
   @ManyToOne(() => User, user => user.registros)
   @JoinColumn({ name: 'userDni', referencedColumnName: 'dni' })
   user: User;
 
-  @Column()
+  @Column({ type: 'date' })
   fecha: Date;
 
-  @Column()
-  horaEntrada: Date;
+  @Column({ type: 'time' })
+  horaEntrada: string;
 
-  @Column({ nullable: true })
-  horaSalida?: Date;
+  @Column({ type: 'time', nullable: true })
+  horaSalida?: string;
 
+  // DNI del usuario que verifica la asistencia
   @Column()
-  verificadoPor: string;
+  verificadoPorDni: number;
+
+  // Relación Many-to-One con User (quien verifica)
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'verificadoPorDni', referencedColumnName: 'dni' })
+  verificadoPor: User;
 
   @Column()
   ubicacion: string;
 
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
 }

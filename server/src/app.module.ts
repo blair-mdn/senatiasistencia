@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { RegistroService } from './registro/registro.service';
 import { AuthModule } from './auth/auth.module';
+import { RegistroModule } from './registro/registro.module';
 
 
 
@@ -56,10 +56,11 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    RegistroModule,
   ],
 
   controllers: [],
-  providers: [RegistroService],
+  providers: [],
 
 })
 export class AppModule {}

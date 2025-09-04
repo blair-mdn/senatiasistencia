@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn, OneToMany, CreateDateColumn } from 'typeorm';
-import { RegistroAlumno } from '../registro/registro.entity';
+import { Registro } from '../registro/registro.entity';
 
 @Entity('users')
 export class User {
@@ -27,8 +27,8 @@ export class User {
   @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   createdAt: Date;
 
-  // Relación One-to-Many con RegistroAluno
-  @OneToMany(() => RegistroAlumno, registro => registro.user)
-  registros: RegistroAlumno[];
+  // Relación One-to-Many con Registro
+  @OneToMany(() => Registro, registro => registro.user)
+  registros: Registro[];
 
 }

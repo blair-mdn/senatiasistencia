@@ -1,28 +1,37 @@
 import { IsBoolean, IsDate, IsNumber, IsString, IsOptional } from 'class-validator'
 
 export class RegistroDto {
-    @IsString()
-    id: string;
+    // ID único del registro (UUID generado automáticamente)
+    @IsOptional()
+    id?: string;
 
-    @IsNumber()
+    // DNI del estudiante al que se le registra la asistencia
+    @IsNumber({}, { message: 'El DNI del usuario debe ser un número válido' })
     userDni: number;
 
-    @IsDate()
+    // Fecha del registro de asistencia
+    @IsDate({ message: 'La fecha debe ser una fecha válida en formato YYYY-MM-DD' })
     fecha: Date;
 
-    @IsDate()
-    horaEntrada: Date;
+    // Hora de entrada en formato HH:MM:SS
+    @IsString({ message: 'La hora de entrada debe ser una cadena de texto en formato HH:MM:SS' })
+    horaEntrada: string;
 
+    // Hora de salida en formato HH:MM:SS (opcional)
     @IsOptional()
-    @IsDate()
-    horaSalida?: Date;
+    @IsString({ message: 'La hora de salida debe ser una cadena de texto en formato HH:MM:SS' })
+    horaSalida?: string;
 
-    @IsString()
-    verificadoPor: string;
+    // DNI del usuario que verifica/controla la asistencia
+    @IsNumber({}, { message: 'El DNI del verificador debe ser un número válido' })
+    verificadoPorDni: number;
 
-    @IsString()
+    // Ubicación donde se registra la asistencia
+    @IsString({ message: 'La ubicación debe ser una cadena de texto válida' })
     ubicacion: string;
 
-    @IsBoolean()
-    isActive: boolean;
+    // Estado del registro (activo/inactivo) - por defecto true
+    @IsOptional()
+    @IsBoolean({ message: 'El estado isActive debe ser un valor booleano (true o false)' })
+    isActive?: boolean;
 }
