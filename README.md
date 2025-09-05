@@ -322,3 +322,93 @@ Authorization: Bearer <access_token_guardia>
 - **404 Not Found**: No se encontró un registro activo para el DNI especificado
 
 ---
+
+### **POST** `/registro/create/visitor`
+
+Crear un nuevo registro de asistencia para visitantes (entrada).
+
+**Headers:**
+
+```
+Content-Type: application/json
+Authorization: Bearer <access_token_guardia>
+```
+
+**Body:**
+
+```json
+{
+  "visitorDni": 87654321,
+  "fecha": "2025-09-05",
+  "horaEntrada": "09:15:00",
+  "verificadoPorDni": 12345678,
+  "ubicacion": "Entrada Principal",
+  "areaVisited": "Área de Administración",
+  "asuntoVisita": "Reunión con el Director"
+}
+```
+
+**Respuesta exitosa (201):**
+
+```json
+{
+  "id": "uuid-registro-visitante-generado",
+  "visitorDni": 87654321,
+  "fecha": "2025-09-05",
+  "horaEntrada": "09:15:00",
+  "horaSalida": null,
+  "verificadoPorDni": 12345678,
+  "ubicacion": "Entrada Principal",
+  "areaVisited": "Área de Administración",
+  "asuntoVisita": "Reunión con el Director",
+  "isActive": true
+}
+```
+
+**Errores posibles:**
+
+- **401 Unauthorized**: Token inválido o expirado
+- **403 Forbidden**: Solo los guardias pueden acceder a este recurso
+- **400 Bad Request**: Datos de entrada inválidos
+- **400 Bad Request**: El DNI del verificador no existe en el sistema
+- **400 Bad Request**: Ya existe un registro con estos datos
+- **400 Bad Request**: Faltan campos obligatorios en el registro
+
+---
+
+### **PATCH** `/registro/updateSalida/visitor`
+
+Actualizar la hora de salida de un registro de visitante existente.
+
+**Headers:**
+
+```
+Content-Type: application/json
+Authorization: Bearer <access_token_guardia>
+```
+
+**Body:**
+
+```json
+{
+  "visitorDni": 87654321,
+  "horaSalida": "16:30:00"
+}
+```
+
+**Respuesta exitosa (200):**
+
+```json
+{
+  "message": "Hora de salida actualizada correctamente"
+}
+```
+
+**Errores posibles:**
+
+- **401 Unauthorized**: Token inválido o expirado
+- **403 Forbidden**: Solo los guardias pueden acceder a este recurso
+- **400 Bad Request**: Datos de entrada inválidos
+- **404 Not Found**: No se encontró un registro activo para el visitante con el DNI especificado
+
+---

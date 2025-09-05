@@ -3,7 +3,8 @@ import { RegistroService } from './registro.service';
 import { GuardiaGuard } from '../auth/guards/guardia.guard';
 import { RegistroDto } from './dto/registro.dto';
 import { UpdateSalidaDto } from './dto/update-salida.dto';
-
+import { VisitorDto } from './dto/visitor.dto';
+import { UpdateSalidaVisitorDto } from './dto/update-salida-visitor.dto';
 
 @Controller('registro')
 export class RegistroController {
@@ -32,8 +33,19 @@ export class RegistroController {
     }
 
 
+    @UseGuards(GuardiaGuard)
+    @Post('create/visitor')
+    @HttpCode(HttpStatus.CREATED)
+    async createRegistroVisitor(@Body() body: VisitorDto){
+        return this.registroService.createRegistroVisitor(body)
+    }
 
-
+    @UseGuards(GuardiaGuard)
+    @Patch('updateSalida/visitor')
+    @HttpCode(HttpStatus.OK)
+    async updateHoraSalidaVisitor(@Body() body: UpdateSalidaVisitorDto){
+        return this.registroService.updateHoraSalidaVisitor(body);
+    }
 
 
 
