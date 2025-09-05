@@ -1,14 +1,18 @@
 package com.daniel.appsenati
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import android.graphics.Color
+import com.google.android.material.button.MaterialButton
 
 class StudentActivity : AppCompatActivity() {
     
@@ -26,6 +30,7 @@ class StudentActivity : AppCompatActivity() {
         tvWelcome = findViewById(R.id.tvWelcome)
         tvDni = findViewById(R.id.tvDni)
         ivQrCode = findViewById(R.id.ivQrCode)
+        val btnLogout = findViewById<MaterialButton>(R.id.btnLogout)
         
         // Obtener datos del intent
         val name = intent.getStringExtra("NAME") ?: "Estudiante"
@@ -38,6 +43,25 @@ class StudentActivity : AppCompatActivity() {
         // Generar y mostrar el código QR si tenemos el DNI
         if (studentDni.isNotEmpty()) {
             generateQRCode(studentDni)
+        }
+        
+        // Configurar el botón de cerrar sesión
+        btnLogout.setOnClickListener {
+            // Limpiar datos de sesión
+            val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                clear() // Elimina todos los datos guardados
+                apply()
+            }
+            
+            // Mostrar mensaje
+            Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+            
+            // Volver a la pantalla de login
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
     }
     
