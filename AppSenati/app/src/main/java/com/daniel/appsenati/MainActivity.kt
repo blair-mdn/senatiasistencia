@@ -1,5 +1,6 @@
 package com.daniel.appsenati
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -70,13 +71,28 @@ class MainActivity : AppCompatActivity() {
                             val user = jsonResponse.getJSONObject("user")
                             val rol = user.getString("rol")
                             val name = user.getString("name")
-
-                            Toast.makeText(this@MainActivity, "Bienvenido $name ($rol)", Toast.LENGTH_LONG).show()
+                            val dni = user.getString("dni")
+                            val lastname = user.optString("lastname", "")
+                            
+                            Toast.makeText(this@MainActivity, "Bienvenido $name ($rol)", Toast.LENGTH_SHORT).show()
 
                             val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
                             with (sharedPref.edit()) {
                                 putString("ACCESS_TOKEN", token)
+                                putString("USER_DNI", dni)
+                                putString("USER_NAME", name)
+                                putString("USER_LASTNAME", lastname)
+                                putString("USER_ROL", rol)
                                 apply()
+                            }
+                            
+                            // Si el usuario es estudiante, navegar a la pantalla de estudiante
+                            if (rol.equals("estudiante", ignoreCase = true)) {
+                                val intent = Intent(this@MainActivity, StudentActivity::class.java)
+                                intent.putExtra("NAME", "$name $lastname")
+                                intent.putExtra("DNI", dni)
+                                startActivity(intent)
+                                finish() // Cerrar la actividad de login
                             }
 
                         } catch (e: Exception) {

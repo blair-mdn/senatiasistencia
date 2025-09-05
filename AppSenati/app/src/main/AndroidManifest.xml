@@ -23,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StudentActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppSenati" />
     </application>
 
 </manifest>
