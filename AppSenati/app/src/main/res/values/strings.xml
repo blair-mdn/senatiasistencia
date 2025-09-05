@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AppSenati</string>
+    <string name="logo_de_la_app">Logo de la App</string>
+    <string name="usuario">Usuario</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="ingresar">Ingresar</string>
 </resources>
