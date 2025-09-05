@@ -17,6 +17,8 @@
     <color name="textColorPrimary">#212121</color> <!-- Texto Principal Oscuro -->
     <color name="textColorSecondary">#757575</color> <!-- Texto Secundario -->
 
+    <color name="dark_blue">#0D47A1</color>
+
     <color name="buttonColor">@color/colorPrimary</color>
     <color name="buttonTextColor">#FFFFFF</color>
     <color name="hintTextColor">#757575</color>

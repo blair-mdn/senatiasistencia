@@ -9,7 +9,7 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-
+import okhttp3.RequestBody
 class MainActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
@@ -89,6 +89,13 @@ class MainActivity : AppCompatActivity() {
                             // Si el usuario es estudiante, navegar a la pantalla de estudiante
                             if (rol.equals("estudiante", ignoreCase = true)) {
                                 val intent = Intent(this@MainActivity, StudentActivity::class.java)
+                                intent.putExtra("NAME", "$name $lastname")
+                                intent.putExtra("DNI", dni)
+                                startActivity(intent)
+                                finish() // Cerrar la actividad de login
+                            }
+                            if (rol.equals("guardia", ignoreCase = true)) {
+                                val intent = Intent(this@MainActivity, GuardActivity::class.java)
                                 intent.putExtra("NAME", "$name $lastname")
                                 intent.putExtra("DNI", dni)
                                 startActivity(intent)

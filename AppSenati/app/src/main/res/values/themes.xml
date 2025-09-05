@@ -27,4 +27,16 @@
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
     </style>
+
+    <!-- Estilo personalizado para los botones -->
+    <style name="Widget.App.Button.DarkBlue" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/dark_blue</item> <!-- Color de fondo del botón -->
+        <item name="android:textColor">@android:color/white</item> <!-- Color del texto del botón -->
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="cornerRadius">8dp</item> <!-- Radio de las esquinas -->
+        <!-- Puedes añadir más atributos aquí, como elevation, rippleColor, etc. -->
+    </style>
 </resources>
