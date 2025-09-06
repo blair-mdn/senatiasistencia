@@ -16,6 +16,7 @@ import com.journeyapps.barcodescanner.CaptureManager
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import java.text.SimpleDateFormat
 import java.util.*
+import android.app.AlertDialog
 
 class GuardActivity : AppCompatActivity() {
 
@@ -128,21 +129,39 @@ class GuardActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        // Limpiar datos de sesión
-        val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            clear() // Elimina todos los datos guardados
-            apply()
-        }
 
-        // Mostrar mensaje
-        Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder
+            .setMessage("¿Seguro que quieres salir?")
+            .setTitle("Cerrar Sesión")
+            .setPositiveButton("Ok") { dialog, which ->
+                // Limpiar datos de sesión
+                val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
+                with(sharedPref.edit()) { // Elimina todos los datos guardados
+                    clear()
+                    apply()
+                }
 
-        // Volver a la pantalla de login
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
+                // Mostrar mensaje
+                Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+
+                // Volver a la pantalla de login
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
+            .setNegativeButton("Cancelar") { dialog, which ->
+                dialog.dismiss()
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+
+
+
+
     }
 
     override fun onRequestPermissionsResult(

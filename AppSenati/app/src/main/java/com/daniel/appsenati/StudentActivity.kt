@@ -13,6 +13,8 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import android.graphics.Color
 import com.google.android.material.button.MaterialButton
+import android.app.AlertDialog
+import android.content.Context
 
 class StudentActivity : AppCompatActivity() {
     
@@ -47,21 +49,39 @@ class StudentActivity : AppCompatActivity() {
         
         // Configurar el botón de cerrar sesión
         btnLogout.setOnClickListener {
-            // Limpiar datos de sesión
-            val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
-            with(sharedPref.edit()) {
-                clear() // Elimina todos los datos guardados
-                apply()
-            }
-            
-            // Mostrar mensaje
-            Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
-            
-            // Volver a la pantalla de login
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder
+                .setMessage("¿Seguro que quieres salir?")
+                .setTitle("Cerrar Sesión")
+                .setPositiveButton("Ok") { dialog, which ->
+                    // Limpiar datos de sesión
+                    val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
+                    with(sharedPref.edit()) { // Eliminar todos los datos guardados
+                        clear()
+                        apply()
+                    }
+
+                    // Mostrar mensaje
+                    Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+
+                    // Volver a la pantalla de login
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
+                .setNegativeButton("Cancelar") { dialog, which ->
+                    dialog.dismiss()
+                }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+
+
+
+
+
         }
     }
     
