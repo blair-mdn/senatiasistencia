@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="Usuario"
-        app:startIconDrawable="@drawable/ic_person" > <!-- Necesitarás un ícono ic_person -->
+        app:startIconDrawable="@drawable/ic_person" >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUsername"
