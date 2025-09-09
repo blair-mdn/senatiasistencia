@@ -17,6 +17,14 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import java.text.SimpleDateFormat
 import java.util.*
 import android.app.AlertDialog
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.IOException
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class GuardActivity : AppCompatActivity() {
 
@@ -189,4 +197,56 @@ class GuardActivity : AppCompatActivity() {
     companion object {
         private const val SCANNER_REQUEST_CODE = 101
     }
+    private fun registrarAsistenciaDesdeQR(dniEstudiante: String) {
+        val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
+        val token = sharedPref.getString("token", null)
+        val dniGuardia = sharedPref.getString("dni", null)
+
+        if (token == null || dniGuardia == null) {
+            runOnUiThread {
+                Toast.makeText(this, "No hay sesión activa", Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+
+        val fecha = LocalDate.now().toString()
+        val hora = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+        val ubicacion = "Entrada Principal"
+
+        val json = JSONObject().apply {
+            put("userDni", dniEstudiante)
+            put("fecha", fecha)
+            put("horaEntrada", hora)
+            put("verificadoPorDni", dniGuardia)
+            put("ubicacion", ubicacion)
+        }
+
+        val body = json.toString().toRequestBody("application/json".toMediaType())
+
+        val request = Request.Builder()
+            .url("https://senatiasistencia.willianjc.dev/") // <-- CAMBIA ESTA URL
+            .addHeader("Authorization", "Bearer $token")
+            .addHeader("Content-Type", "application/json")
+            .post(body)
+            .build()
+
+        OkHttpClient().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    Toast.makeText(this@GuardActivity, "Error de red: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                runOnUiThread {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@GuardActivity, "✅ Registro exitoso", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@GuardActivity, "❌ Error al registrar: ${response.code}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
+    }
+
 }
