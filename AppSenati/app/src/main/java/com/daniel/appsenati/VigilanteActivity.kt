@@ -110,6 +110,8 @@ class GuardActivity : AppCompatActivity() {
 
             tvLastScan.text = "Último escaneo:\nDNI: $dni\nFecha: $currentTime"
 
+            registrarAsistenciaDesdeQR(dni)
+
             Toast.makeText(
                 this,
                 "Acceso registrado para DNI: $dni",
@@ -199,8 +201,8 @@ class GuardActivity : AppCompatActivity() {
     }
     private fun registrarAsistenciaDesdeQR(dniEstudiante: String) {
         val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
-        val token = sharedPref.getString("token", null)
-        val dniGuardia = sharedPref.getString("dni", null)
+        val token = sharedPref.getString("ACCESS_TOKEN", null)
+        val dniGuardia = sharedPref.getString("USER_DNI", null)
 
         if (token == null || dniGuardia == null) {
             runOnUiThread {
@@ -214,17 +216,17 @@ class GuardActivity : AppCompatActivity() {
         val ubicacion = "Entrada Principal"
 
         val json = JSONObject().apply {
-            put("userDni", dniEstudiante)
+            put("userDni", dniEstudiante.toInt())
             put("fecha", fecha)
             put("horaEntrada", hora)
-            put("verificadoPorDni", dniGuardia)
+            put("verificadoPorDni", dniGuardia.toInt())
             put("ubicacion", ubicacion)
         }
-
+        println("JSON a enviar: $json")
         val body = json.toString().toRequestBody("application/json".toMediaType())
 
         val request = Request.Builder()
-            .url("https://senatiasistencia.willianjc.dev/") // <-- CAMBIA ESTA URL
+            .url("https://senatiasistencia.willianjc.dev/registro/create") // <-- CAMBIA ESTA URL
             .addHeader("Authorization", "Bearer $token")
             .addHeader("Content-Type", "application/json")
             .post(body)
