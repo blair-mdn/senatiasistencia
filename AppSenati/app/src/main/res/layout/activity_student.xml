@@ -113,4 +113,22 @@
         android:backgroundTint="@color/colorAccent"
         android:textColor="@color/textColorPrimary" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangePassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="Cambiar Contraseña"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        app:layout_constraintTop_toBottomOf="@id/btnLogout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.6"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/buttonTextColor"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
