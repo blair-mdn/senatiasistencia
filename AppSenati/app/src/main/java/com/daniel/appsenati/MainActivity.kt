@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -77,13 +78,12 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(this@MainActivity, "Bienvenido $name ($rol)", Toast.LENGTH_SHORT).show()
 
                             val sharedPref = getSharedPreferences("MiAppPrefs", MODE_PRIVATE)
-                            with (sharedPref.edit()) {
+                            sharedPref.edit {
                                 putString("ACCESS_TOKEN", token)
                                 putString("USER_DNI", dni)
                                 putString("USER_NAME", name)
                                 putString("USER_LASTNAME", lastname)
                                 putString("USER_ROL", rol)
-                                apply()
                             }
                             
                             // Si el usuario es estudiante, navegar a la pantalla de estudiante

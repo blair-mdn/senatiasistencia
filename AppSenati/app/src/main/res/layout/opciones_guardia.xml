@@ -46,6 +46,22 @@
         app:layout_constraintTop_toBottomOf="@id/tvLastScan"
         app:layout_constraintWidth_percent="0.7" />
 
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUpdateSalida"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Actualizar Salida"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnScanQR"
+        app:layout_constraintWidth_percent="0.7" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVisitantes"
         style="@style/Widget.Material3.Button"
@@ -58,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnScanQR"
+        app:layout_constraintTop_toBottomOf="@id/btnUpdateSalida"
         app:layout_constraintWidth_percent="0.7" />
 
     <com.google.android.material.button.MaterialButton
@@ -73,7 +89,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnScanQR"
+        app:layout_constraintTop_toBottomOf="@id/btnVisitantes"
         app:layout_constraintWidth_percent="0.7" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangePassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="Cambiar Contraseña"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        app:layout_constraintTop_toBottomOf="@id/btnLogout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.6"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/buttonTextColor"
+        />
+
+
+
+
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

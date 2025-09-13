@@ -26,7 +26,6 @@ class changePasswordActivity: AppCompatActivity() {
     private lateinit var etConfirmPassword: TextInputEditText
     private lateinit var btnCancel: Button
     private lateinit var btnChangePassword: Button
-
     private val client = OkHttpClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
