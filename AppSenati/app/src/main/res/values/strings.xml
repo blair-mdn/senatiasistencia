@@ -12,4 +12,12 @@
     <string name="confirmar_nueva_contrasena">Confirmar nueva contraseña</string>
     <string name="cancelar">Cancelar</string>
     <string name="icono_candado">Icono de candado</string>
+
+    <string-array name="areas">
+        <item>SEGUIMIENTO</item>
+        <item>RECEPCIÓN</item>
+        <item>GERENCIA</item>
+        <item>OTROS</item>
+    </string-array>
+
 </resources>

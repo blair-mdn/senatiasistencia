@@ -34,6 +34,7 @@ class GuardActivity : AppCompatActivity() {
     private lateinit var btnLogout: MaterialButton
     private lateinit var barcodeView: DecoratedBarcodeView
     private lateinit var capture: CaptureManager
+    private lateinit var btnVisitantes: MaterialButton
 
     private val CAMERA_PERMISSION_CODE = 100
 
@@ -46,6 +47,7 @@ class GuardActivity : AppCompatActivity() {
         tvLastScan = findViewById(R.id.tvLastScan)
         btnScanQR = findViewById(R.id.btnScanQR)
         btnLogout = findViewById(R.id.btnLogout)
+        btnVisitantes = findViewById(R.id.btnVisitantes)
 
         // Obtener datos del intent
         val name = intent.getStringExtra("NAME") ?: "Vigilante"
@@ -66,6 +68,11 @@ class GuardActivity : AppCompatActivity() {
         // Configurar el botón de cerrar sesión
         btnLogout.setOnClickListener {
             logout()
+        }
+
+        btnVisitantes.setOnClickListener {
+            val intent = Intent(this, VisitanteActivity::class.java)
+            startActivity(intent)
         }
     }
 
